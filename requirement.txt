@@ -1,0 +1,6 @@
+requests==2.25.1
+python-dotenv
+psycopg2
+pandas
+dash
+jupyter-dash
