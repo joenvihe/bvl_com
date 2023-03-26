@@ -25,18 +25,10 @@ var_payload = {"sector": "", "isToday": "True", "companyCode": "", "inputCompany
 #db_password = os.environ.get('PASSWORD')
 #db_uri = os.environ.get('URI')
 db_host = "ec2-3-233-7-12.compute-1.amazonaws.com"
-db_database = "dd7fd8f9qhu9c0"
-db_user = "qwmoeottygsoqm"
+db_database = ""
+db_user = ""
 db_port = 5432
-db_password = "715a2d2c1548384b7e8829fad9fba733833c78decaf771b9ba4f7dcb54342e15"
-
-#URI_DEV=postgres://uapyvuehjlnqdf:465e058485c0eb20fa1892878164686c1707d5a9cb2e0ceb73b96cca468d788f@ec2-54-145-249-177.compute-1.amazonaws.com:5432/d1qolkr7c7j5ug
-#HOST=ec2-3-233-7-12.compute-1.amazonaws.com
-#DATABASE=dd7fd8f9qhu9c0
-#USER=qwmoeottygsoqm
-#PORT=5432
-#PASSWORD=715a2d2c1548384b7e8829fad9fba733833c78decaf771b9ba4f7dcb54342e15
-
+db_password = ""
 
 def connect_postgres():
     print(db_host)
