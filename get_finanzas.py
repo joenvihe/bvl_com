@@ -5,7 +5,7 @@ from requests.api import request
 import psycopg2
 from dotenv import load_dotenv   #for python-dotenv method
 load_dotenv()                    #for python-dotenv method
-import os 
+import os
 from datetime import datetime
 import pandas as pd
 import sys
@@ -21,18 +21,13 @@ COD = "B20003"
 YEAR_PERIOD = "2000"
 
 
-#db_host = os.environ.get('HOST')
-#db_database = os.environ.get('DATABASE')
-#db_user = os.environ.get('USER')
-#db_port = os.environ.get('PORT')
-#db_password = os.environ.get('PASSWORD')
+db_host = os.environ.get('HOST')
+db_database = os.environ.get('DATABASE')
+db_user = os.environ.get('USER')
+db_port = os.environ.get('PORT')
+db_password = os.environ.get('PASSWORD')
 #db_uri = os.environ.get('URI')
 
-db_host = "ec2-3-233-7-12.compute-1.amazonaws.com"
-db_database = ""
-db_user = ""
-db_port = 5432
-db_password = ""
 
 def connect_postgres():
     conn = psycopg2.connect(

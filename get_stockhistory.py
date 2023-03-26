@@ -7,9 +7,6 @@ import os
 from datetime import datetime
 
 
-env_path="/d/users/jvicenth/OneDrive - Rimac Seguros y Reaseguros/CURSOS/AUTOMATIZACION/bvl/.env"
-load_dotenv(env_path)
-
 #SOLO VALORES
 #https://dataondemand.bvl.com.pe/v1/stock-quote/share-values/BAP?startDate=2010-05-21&endDate=2021-05-21
 #MAS DETALLE
@@ -18,17 +15,12 @@ URL_HISTORICO = "https://dataondemand.bvl.com.pe/v1/issuers/stock/{}?startDate={
 URL = "https://dataondemand.bvl.com.pe/v1/stock-quote/home"
 var_payload = {"sector": "", "isToday": "True", "companyCode": "", "inputCompany": ""}
 
-#db_host = os.environ.get('HOST')
-#db_database = os.environ.get('DATABASE')
-#db_user = os.environ.get('USER')
-#db_port = os.environ.get('PORT')
-#db_password = os.environ.get('PASSWORD')
+db_host = os.environ.get('HOST')
+db_database = os.environ.get('DATABASE')
+db_user = os.environ.get('USER')
+db_port = os.environ.get('PORT')
+db_password = os.environ.get('PASSWORD')
 #db_uri = os.environ.get('URI')
-db_host = "ec2-3-233-7-12.compute-1.amazonaws.com"
-db_database = ""
-db_user = ""
-db_port = 5432
-db_password = ""
 
 def connect_postgres():
     print(db_host)
