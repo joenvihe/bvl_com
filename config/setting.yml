@@ -1,0 +1,11 @@
+url_bvl:
+  url_historico: "https://dataondemand.bvl.com.pe/v1/issuers/stock/{}?startDate={}&endDate={}"
+  url_lista_acciones: "https://dataondemand.bvl.com.pe/v1/stock-quote/home"
+
+
+db_connect:
+  db_host: os.environ.get('HOST')
+  db_database: os.environ.get('DATABASE')
+  db_user: os.environ.get('USER')
+  db_port: os.environ.get('PORT')
+  db_password: os.environ.get('PASSWORD')

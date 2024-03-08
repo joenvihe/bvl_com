@@ -1,34 +1,23 @@
 import requests
 import json
 import psycopg2
-from dotenv import load_dotenv   #for python-dotenv method
-#load_dotenv()                    #for python-dotenv method
+from dotenv import load_dotenv
 import os 
 from datetime import datetime
+import yaml
 
-
-#SOLO VALORES
-#https://dataondemand.bvl.com.pe/v1/stock-quote/share-values/BAP?startDate=2010-05-21&endDate=2021-05-21
-#MAS DETALLE
-#https://dataondemand.bvl.com.pe/v1/issuers/stock/FERREYC1?startDate=2009-04-22&endDate=2021-05-22
-URL_HISTORICO = "https://dataondemand.bvl.com.pe/v1/issuers/stock/{}?startDate={}&endDate={}"
-URL = "https://dataondemand.bvl.com.pe/v1/stock-quote/home"
-var_payload = {"sector": "", "isToday": "True", "companyCode": "", "inputCompany": ""}
-
-db_host = os.environ.get('HOST')
-db_database = os.environ.get('DATABASE')
-db_user = os.environ.get('USER')
-db_port = os.environ.get('PORT')
-db_password = os.environ.get('PASSWORD')
-#db_uri = os.environ.get('URI')
+def get_config():
+    with open('../config/setting.yml', 'r') as file:
+        setting = yaml.safe_load(file)
+    return setting
 
 def connect_postgres():
-    print(db_host)
+    setting = get_config()
     conn = psycopg2.connect(
-    host=db_host,
-    database=db_database,
-    user=db_user,
-    password=db_password)
+    host = setting["db_connect"]["db_host"],
+    database =  setting["db_connect"]["db_database"],
+    user = setting["db_connect"]["db_user"],
+    password = setting["db_connect"]["db_password"])
     return conn
 
 def select_companyStock():
@@ -44,7 +33,6 @@ def select_companyStock():
     list_stockCode = []
     row = cur.fetchone()
     while row is not None:
-        #print(row)
         list_stockCode.append(row[2])
         row = cur.fetchone()
 
@@ -69,7 +57,6 @@ def select_stockHistory(nemonico):
     list_stockCode = []
     row = cur.fetchone()
     while row is not None:
-        #print(row)
         list_stockCode.append(row[2])
         row = cur.fetchone()
 
@@ -162,85 +149,13 @@ def create_tables():
     conn.commit()
 
 def get_stock_list():
-    r = requests.post(URL, data=json.dumps(var_payload))
+    setting = get_config()
+    r = requests.post(setting["url_bvl"]["url_lista_acciones"], data=json.dumps(var_payload))
     lista_codigos = json.loads(r.text)
     return lista_codigos
 
 def get_stock_list_values(nemonico, startDate, endDate):
-    r = requests.get(URL_HISTORICO.format(nemonico,startDate,endDate))
+    setting = get_config()
+    r = requests.get(setting["url_bvl"]["url_historico"].format(nemonico,startDate,endDate))
     lista_values = json.loads(r.text)
     return lista_values
-
-
-if __name__ == "__main__":
-    #create_tables() -- SOLO EJECUTAR 1 VEZ
-    # Obtengo la info de la web
-    stock_list = get_stock_list()
-    print(stock_list)
-    # Obtengo la lista de codigos grabado en la BD
-    listStockCode = select_companyStock()
-    # Inserto todos los row que faltaban.
-    entro = False
-    for i in stock_list:
-        if i["nemonico"] not in listStockCode:
-            #print(i)
-            insert_row_companyStock(i)
-            entro = True
-    if entro:
-        #obtengo la lista actualizada
-        listStockCode = select_companyStock()
-
-    # Registro la data historica
-    for i in listStockCode:
-        nemonico = i
-        print(nemonico)
-        lsh = select_stockHistory(nemonico)
-        print(lsh)
-        if len(lsh) > 0:
-            startDate = lsh[0]
-        else:
-            startDate = "2000-01-01"
-        
-        endDate = datetime.today().strftime('%Y-%m-%d')
-
-        list_values = get_stock_list_values(nemonico, startDate, endDate)
-        str_values = ""
-        for val in list_values:
-            try:
-                if "id" not in val:
-                    val["id"] = ""
-                if "nemonico" not in val:
-                    val["nemonico"] = ""
-                if "date" not in val:
-                    val["date"] = ""
-                if "open" not in val:
-                    val["open"] = ""
-                if "close" not in val:
-                    val["close"] = "" 
-                if "high" not in val:
-                    val["high"] = ""
-                if "low" not in val:
-                    val["low"] = ""
-                if "average" not in val:
-                    val["average"] = ""
-                if "quantityNegotiated" not in val:
-                    val["quantityNegotiated"] = ""
-                if "solAmountNegotiated" not in val:
-                    val["solAmountNegotiated"] = ""
-                if "dollarAmountNegotiated" not in val:
-                    val["dollarAmountNegotiated"]
-                if "yesterday" not in val:
-                    val["yesterday"] = ""
-                if "yesterdayClose" not in val:
-                    val["yesterdayClose"] = "" 
-                if "currencySymbol" not in val:
-                    val["currencySymbol"]
-
-                str_values = str_values + "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(val["id"],val["nemonico"],val["date"],val["open"],val["close"],val["high"],val["low"],val["average"],val["quantityNegotiated"],val["solAmountNegotiated"],val["dollarAmountNegotiated"],val["yesterday"],val["yesterdayClose"],val["currencySymbol"])
-            except Exception as e:
-                print(e)
-            
-        str_values = str_values[:-1]
-        if len(str_values)>0:
-            insert_row_stockHistory(str_values)
-        
