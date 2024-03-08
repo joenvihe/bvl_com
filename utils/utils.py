@@ -14,10 +14,11 @@ def get_config():
 def connect_postgres():
     setting = get_config()
     conn = psycopg2.connect(
-    host = setting["db_connect"]["db_host"],
-    database =  setting["db_connect"]["db_database"],
-    user = setting["db_connect"]["db_user"],
-    password = setting["db_connect"]["db_password"])
+    host = os.environ.get('HOST'),
+    database =  os.environ.get('DATABASE'),
+    user = os.environ.get('USER'),
+    password = os.environ.get('PASSWORD')
+    )
     return conn
 
 def select_companyStock():

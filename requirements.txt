@@ -1,7 +1,5 @@
-requests==2.25.1
-python-dotenv
-psycopg2
-pandas
-dash
-jupyter-dash
-pyyaml
+requests==2.31.0
+python-dotenv==1.0.0
+psycopg2==2.9.5
+pandas==1.5.2
+pyyaml==6.0.1
