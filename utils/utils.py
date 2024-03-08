@@ -7,7 +7,7 @@ from datetime import datetime
 import yaml
 
 def get_config():
-    with open('..\config\setting.yml', 'r') as file:
+    with open('./config/setting.yml', 'r') as file:
         setting = yaml.safe_load(file)
     return setting
 
