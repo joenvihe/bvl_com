@@ -198,7 +198,6 @@ def insertar_movimientos_del_dia():
     r = requests.post(setting["url_bvl"]["url_bvl_movimientos_del_dia"], json=payload)
     vinfo = json.loads(r.text)
     val = ""
-    print(vinfo)
     for  v in vinfo:
         v1 = ""
         if "sectorCode" in v:
@@ -215,7 +214,7 @@ def insertar_movimientos_del_dia():
         val += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(
             v['companyCode'],v['companyName'],v['shortName'],
             v['nemonico'],v1,v2,
-            v['lastDate'],v['previousDate'],v3,v4,
+            '',v['previousDate'],v3,v4,
             v['previous'],v['negotiatedQuantity'],v['negotiatedAmount'],
             v['negotiatedNationalAmount'],v['operationsNumber'],v['currency'],
             v['unity'],v['segment'],v['createdDate'])
