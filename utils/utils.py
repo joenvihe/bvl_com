@@ -198,6 +198,7 @@ def insertar_movimientos_del_dia():
     r = requests.post(setting["url_bvl"]["url_bvl_movimientos_del_dia"], json=payload)
     vinfo = json.loads(r.text)
     val = ""
+    print(vinfo)
     for  v in vinfo:
         v1 = ""
         if "sectorCode" in v:
