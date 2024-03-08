@@ -67,6 +67,27 @@ def select_stockHistory(nemonico):
     return list_stockCode
 
 
+def insert_row_stockistoday(lst_row):
+    try:
+        
+        query = """INSERT INTO public.stockistoday(
+	companycode, companyname, shortname, nemonico, sectorcode, sectordescription, lastdate, previousdate, buy, sell, previous, negotiatedquantity, negotiatedamount, negotiatednationalamount, operationsnumbe, currency, unity, segment, createddate)
+	VALUES {} """.format(lst_row)
+        # connect to the PostgreSQL server
+        conn = connect_postgres()
+        cur = conn.cursor()
+        cur.execute(query)
+        conn.commit()
+        
+        count = cur.rowcount
+        print(count, "Record inserted")
+        
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print(e)   
+
+
 def insert_row_companyStock(row):
     try:
         if  "sectorCode" not in row:
@@ -161,3 +182,42 @@ def get_stock_list_values(nemonico, startDate, endDate):
     r = requests.get(setting["url_bvl"]["url_historico"].format(nemonico,startDate,endDate))
     lista_values = json.loads(r.text)
     return lista_values
+
+
+def insertar_movimientos_del_dia():
+    setting = get_config()
+    #Request Method: POST
+    # variables detalle
+    payload = {
+        "companyCode": "",
+        "inputCompany": "",
+        "isToday": "true",
+        "sector": ""
+    }
+
+    r = requests.post(setting["url_bvl"]["url_bvl_movimientos_del_dia"], json=payload)
+    vinfo = json.loads(r.text)
+    val = ""
+    for  v in vinfo:
+        v1 = ""
+        if "sectorCode" in v:
+            v1 = v["sectorCode"]
+        v2 = ""
+        if "sectorDescription" in v:
+            v2 = v["sectorDescription"]
+        v3 = ""
+        if "buy" in v:
+            v3 = v["buy"]
+        v4 = ""
+        if "sell" in v:
+            v4 = v["sell"]
+        val += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(
+            v['companyCode'],v['companyName'],v['shortName'],
+            v['nemonico'],v1,v2,
+            v['lastDate'],v['previousDate'],v3,v4,
+            v['previous'],v['negotiatedQuantity'],v['negotiatedAmount'],
+            v['negotiatedNationalAmount'],v['operationsNumber'],v['currency'],
+            v['unity'],v['segment'],v['createdDate'])
+
+    if len(val)>0:
+        insert_row_stockistoday(val[:-1])
