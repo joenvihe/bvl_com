@@ -150,6 +150,7 @@ def create_tables():
 
 def get_stock_list():
     setting = get_config()
+    var_payload = {"sector": "", "isToday": "True", "companyCode": "", "inputCompany": ""}
     r = requests.post(setting["url_bvl"]["url_lista_acciones"], data=json.dumps(var_payload))
     lista_codigos = json.loads(r.text)
     return lista_codigos
