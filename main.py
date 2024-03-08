@@ -1,4 +1,4 @@
-import utils as u 
+import utils.utils as u 
 from datetime import datetime
 
 def obtener_lista_actualizada_de_acciones_en_bolsa():
