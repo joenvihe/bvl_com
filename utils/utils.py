@@ -453,13 +453,17 @@ def select_doc_financieros(codigo = ""):
     conn = connect_postgres()
     cur = conn.cursor()
     cur.execute(query) 
-
+    print(query)
     list_stockCode = []
-    row = cur.fetchone()
-    while row is not None:
-        #print(row)
-        list_stockCode.append("{}{}".format(row[0],row[1]))
+    try:
         row = cur.fetchone()
+        while row is not None:
+            #print(row)
+            list_stockCode.append("{}{}".format(row[0],row[1]))
+            row = cur.fetchone()
+    except Exception as e:
+        print("16")
+        print(e)
 
     cur.close()
     conn.close()
