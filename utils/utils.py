@@ -505,7 +505,9 @@ def insertar_resultado_x_quarter_x_compania(codigo,anho,quarter):
 
     try:
         setting = get_config()
+        print("antes")
         r = requests.get(setting["url_bvl"]["url_declaracion_financiera_general"], json=payload)
+        print("despues")
         lista_values = json.loads(r.text)
         print(r.text)
         l = select_doc_financieros(codigo)
