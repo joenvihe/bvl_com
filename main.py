@@ -98,6 +98,7 @@ def lista_year_quarter(year_quarter):
 
 def insertar_resultado_x_quarter_x_compania_masivamente():
     lst_code = u.select_companyStock_with_code()
+    print("seleciona codigo")
     for codigo in lst_code:
         l = u.select_doc_financieros(codigo)
         if len(l)>0:
@@ -129,11 +130,13 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
 
+    print("inicia actualizar datos de compañia masivamente")
     try:
         actualizar_datos_compania_masivamente()
     except Exception as e:
         print(e)
 
+    print("inicia insertar datos de dividendos por compañia")
     try:
         insertar_datos_dividendos_x_compania_masivamente()
     except Exception as e:
@@ -144,7 +147,7 @@ if __name__ == "__main__":
     #except Exception as e:
     #    print(e)
     
-
+    print("insertar datos de resultados por cuarto")
     try:
         insertar_resultado_x_quarter_x_compania_masivamente()
     except Exception as e:
