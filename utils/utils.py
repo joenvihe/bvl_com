@@ -518,6 +518,7 @@ def insertar_resultado_x_quarter_x_compania(codigo,anho,quarter):
         else:
             doc_year = 19901
     except Exception as e:
+        lista_values = []
         print("15")
         print(e)
 
