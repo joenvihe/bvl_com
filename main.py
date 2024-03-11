@@ -64,6 +64,7 @@ def insertar_lista_precios_x_accion(list_values):
 
             str_values = str_values + "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(val["id"],val["nemonico"],val["date"],val["open"],val["close"],val["high"],val["low"],val["average"],val["quantityNegotiated"],val["solAmountNegotiated"],val["dollarAmountNegotiated"],val["yesterday"],val["yesterdayClose"],val["currencySymbol"])
         except Exception as e:
+            print("13")
             print(e)
         
     str_values = str_values[:-1]
@@ -118,6 +119,7 @@ if __name__ == "__main__":
     try:
         u.insertar_movimientos_del_dia()
     except Exception as e:
+        print("9")
         print(e)
     
     try:
@@ -128,18 +130,21 @@ if __name__ == "__main__":
             lista_precios_x_accion_x_fecha = obtener_lista_de_precios_x_accion_x_rango_fechas(nemonico)
             insertar_lista_precios_x_accion(lista_precios_x_accion_x_fecha)
     except Exception as e:
+        print("10")
         print(e)
 
     print("inicia actualizar datos de compañia masivamente")
     try:
         actualizar_datos_compania_masivamente()
     except Exception as e:
+        print("11")
         print(e)
 
     print("inicia insertar datos de dividendos por compañia")
     try:
         insertar_datos_dividendos_x_compania_masivamente()
     except Exception as e:
+        print("12")
         print(e)
 
     #try:
@@ -151,6 +156,7 @@ if __name__ == "__main__":
     try:
         insertar_resultado_x_quarter_x_compania_masivamente()
     except Exception as e:
+        print("13")
         print(e)
 
 

@@ -145,6 +145,7 @@ def insert_row_stockistoday(lst_row):
         cur.close()
         conn.close()
     except Exception as e:
+        print("1")
         print(e)   
 
 
@@ -168,6 +169,7 @@ def insert_row_companyStock(row):
         cur.close()
         conn.close()
     except Exception as e:
+        print("2")
         print(e)     
 
 def insert_row_stockHistory(lst_row):
@@ -187,6 +189,7 @@ def insert_row_stockHistory(lst_row):
         cur.close()
         conn.close()
     except Exception as e:
+        print("3")
         print(e)     
 
 def create_tables():
@@ -264,6 +267,7 @@ def update_row_companyStock(code,website,desc,compcode):
         cur.close()
         conn.close()
     except Exception as e:
+        print("4")
         print(e)     
 
 
@@ -331,6 +335,7 @@ def insert_row_stockvalues(lst_row):
         cur.close()
         conn.close()
     except Exception as e:
+        print("5")
         print(e)     
 
 
@@ -356,6 +361,7 @@ def insertar_dividendos_x_compania(codigo):
                     except Exception as e:
                         entro = False
         except Exception as e:
+            print("6")
             print(e)
             entro = False
         if entro:
@@ -405,6 +411,7 @@ def insert_row_ratios_financieros(lst_row):
         cur.close()
         conn.close()
     except Exception as e:
+        print("7")
         print(e)   
 
 def insertar_declaracion_financiera_x_compania(codigo):
@@ -476,6 +483,7 @@ def insert_row_doc_financieros(lst_row):
         cur.close()
         conn.close()
     except Exception as e:
+        print("8")
         print(e)   
 
 def insertar_resultado_x_quarter_x_compania(codigo,anho,quarter):
