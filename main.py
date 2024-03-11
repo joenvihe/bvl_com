@@ -64,7 +64,7 @@ def insertar_lista_precios_x_accion(list_values):
 
             str_values = str_values + "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(val["id"],val["nemonico"],val["date"],val["open"],val["close"],val["high"],val["low"],val["average"],val["quantityNegotiated"],val["solAmountNegotiated"],val["dollarAmountNegotiated"],val["yesterday"],val["yesterdayClose"],val["currencySymbol"])
         except Exception as e:
-            print("13")
+            print("14")
             print(e)
         
     str_values = str_values[:-1]
