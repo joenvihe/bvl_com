@@ -151,17 +151,18 @@ if __name__ == "__main__":
         print("12")
         print(e)
 
-    #try:
-    #    insertar_declaracion_financiera_x_compania_masivamente()
-    #except Exception as e:
-    #    print(e)
-    
-    print("insertar datos de resultados por cuarto")
+    print("insertar datos de ratios financieros")
     try:
-        insertar_resultado_x_quarter_x_compania_masivamente()
+        insertar_declaracion_financiera_x_compania_masivamente()
     except Exception as e:
-        print("13")
         print(e)
+    
+    #print("insertar datos de resultados por cuarto")
+    #try:
+    #    insertar_resultado_x_quarter_x_compania_masivamente()
+    #except Exception as e:
+    #    print("13")
+    #    print(e)
 
 
 
