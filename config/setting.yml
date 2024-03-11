@@ -2,3 +2,7 @@ url_bvl:
   url_historico: "https://dataondemand.bvl.com.pe/v1/issuers/stock/{}?startDate={}&endDate={}"
   url_lista_acciones: "https://dataondemand.bvl.com.pe/v1/stock-quote/home"
   url_bvl_movimientos_del_dia: "https://dataondemand.bvl.com.pe/v1/stock-quote/home"
+  url_bvl_info_compania : "https://dataondemand.bvl.com.pe/v1/issuers/{}/info"
+  url_dividendos_x_compania : "https://dataondemand.bvl.com.pe/v1/issuers/{}/value"
+  url_declaracion_financiera_x_compania : "https://dataondemand.bvl.com.pe/v1/financial-statements/{}"
+  url_declaracion_financiera_general : "https://dataondemand.bvl.com.pe/v1/financial-statements/"

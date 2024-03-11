@@ -69,17 +69,87 @@ def insertar_lista_precios_x_accion(list_values):
     str_values = str_values[:-1]
     if len(str_values)>0:
         u.insert_row_stockHistory(str_values)
-    
+
+def actualizar_datos_compania_masivamente():
+    lst_comp = u.select_companyStock_opciones(1)
+    for codigo in lst_comp:
+        if codigo != "XXX":
+            u.actualizar_datos_compania(codigo)
+
+def insertar_datos_dividendos_x_compania_masivamente():
+    lst_comp = u.select_companyStock_opciones(2)
+    for codigo in lst_comp:
+        u.insertar_dividendos_x_compania()
+
+def insertar_declaracion_financiera_x_compania_masivamente(codigo):
+    lst_code = u.select_companyStock_with_code()
+    for codigo in lst_code:
+        u.insertar_declaracion_financiera_x_compania(codigo)
+
+def lista_year_quarter(year_quarter):
+    now = datetime.now()
+    anho_actual = now.year
+    lista_anho_quarter = []
+    for year in range(year_quarter,anho_actual+1):
+        for quarter in range(1,5):
+            valor = "{}{}".format(year,quarter)
+            lista_anho_quarter.add(int(valor))
+    return lista_anho_quarter
+
+def insertar_resultado_x_quarter_x_compania_masivamente():
+    lst_code = u.select_companyStock_with_code()
+    for codigo in lst_code:
+        l = u.select_doc_financieros(codigo)
+        if len(l)>0:
+            year_quarter = int(l[0])
+        else:
+            year_quarter = 19901
+        lista_de_anhos_y_quarter = lista_year_quarter(int(str(year_quarter)[0:4]))
+        for i in lista_de_anhos_y_quarter:
+            if i > year_quarter:
+                anho = str(i)[0:4]
+                quarter = str(i)[-1]
+                u.insertar_resultado_x_quarter_x_compania(codigo,anho,quarter)
 
 if __name__ == "__main__":
     #create_tables() -- SOLO EJECUTAR 1 VEZ
     print("inicia insertar movimientos del dia")
-    u.insertar_movimientos_del_dia()
-    print("inicia insertar precio de historico por accion")
-    lista_de_acciones_en_bolsa = obtener_lista_actualizada_de_acciones_en_bolsa()
-    # Registro la data historica, de todas las acciones
-    for nemonico in lista_de_acciones_en_bolsa:
-        lista_precios_x_accion_x_fecha = obtener_lista_de_precios_x_accion_x_rango_fechas(nemonico)
-        insertar_lista_precios_x_accion(lista_precios_x_accion_x_fecha)
+    try:
+        u.insertar_movimientos_del_dia()
+    except Exception as e:
+        print(e)
+    
+    try:
+        print("inicia insertar precio de historico por accion")
+        lista_de_acciones_en_bolsa = obtener_lista_actualizada_de_acciones_en_bolsa()
+        # Registro la data historica, de todas las acciones
+        for nemonico in lista_de_acciones_en_bolsa:
+            lista_precios_x_accion_x_fecha = obtener_lista_de_precios_x_accion_x_rango_fechas(nemonico)
+            insertar_lista_precios_x_accion(lista_precios_x_accion_x_fecha)
+    except Exception as e:
+        print(e)
+
+    try:
+        actualizar_datos_compania_masivamente()
+    except Exception as e:
+        print(e)
+
+    try:
+        insertar_datos_dividendos_x_compania_masivamente()
+    except Exception as e:
+        print(e)
+
+    try:
+        insertar_declaracion_financiera_x_compania_masivamente()
+    except Exception as e:
+        print(e)
+    
+
+    try:
+        insertar_resultado_x_quarter_x_compania_masivamente()
+    except Exception as e:
+        print(e)
+
+
 
 

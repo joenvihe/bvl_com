@@ -400,12 +400,6 @@ if __name__ == "__main__":
 
             r = requests.post(URL, json=payload)
             lista_values = json.loads(r.text)
-            #print(lista_values)
-
-            #break
-            #df = pd.DataFrame.from_dict(lista_values, orient='columns')
-            #print(r.status_code)
-            #print(df)
             
             
             l = select_doc_financieros(codigo)
