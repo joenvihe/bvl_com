@@ -79,9 +79,9 @@ def actualizar_datos_compania_masivamente():
 def insertar_datos_dividendos_x_compania_masivamente():
     lst_comp = u.select_companyStock_opciones(2)
     for codigo in lst_comp:
-        u.insertar_dividendos_x_compania()
+        u.insertar_dividendos_x_compania(codigo)
 
-def insertar_declaracion_financiera_x_compania_masivamente(codigo):
+def insertar_declaracion_financiera_x_compania_masivamente():
     lst_code = u.select_companyStock_with_code()
     for codigo in lst_code:
         u.insertar_declaracion_financiera_x_compania(codigo)
