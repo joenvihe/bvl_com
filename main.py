@@ -109,8 +109,12 @@ def insertar_resultado_x_quarter_x_compania_masivamente():
         lista_de_anhos_y_quarter = lista_year_quarter(int(str(year_quarter)[0:4]))
         for i in lista_de_anhos_y_quarter:
             if i > year_quarter:
+                print(year_quarter)
+                print(i)
                 anho = str(i)[0:4]
                 quarter = str(i)[-1]
+                print(anho)
+                print(quarter)
                 u.insertar_resultado_x_quarter_x_compania(codigo,anho,quarter)
 
 if __name__ == "__main__":

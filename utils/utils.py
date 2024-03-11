@@ -499,39 +499,44 @@ def insertar_resultado_x_quarter_x_compania(codigo,anho,quarter):
         "yearPeriod": anho #año
     } # ejempplo 2021 1  or 2021 2 or 2021 3 or 2021 4, etc
 
-    setting = get_config()
-    r = requests.get(setting["url_bvl"]["url_declaracion_financiera_general"], json=payload)
-    lista_values = json.loads(r.text)
-    l = select_doc_financieros(codigo)
-    if len(l)>0:
-        doc_year = int(l[0])
-    else:
-        doc_year = 19901
+    try:
+        setting = get_config()
+        r = requests.get(setting["url_bvl"]["url_declaracion_financiera_general"], json=payload)
+        lista_values = json.loads(r.text)
+        l = select_doc_financieros(codigo)
+        if len(l)>0:
+            doc_year = int(l[0])
+        else:
+            doc_year = 19901
+    except Exception as e:
+        print("15")
+        print(e)
 
     lst_val = []
     str_row = ""
-    for v in lista_values["content"]:
-        if "document" in v:
-            #print(v["document"])
-            for i in v["document"]:
-                valor = int("{}{}".format(v["yearPeriod"],v["period"]))
-                if valor >doc_year:
-                    dval ={}
-                    dval["yearPeriod"] = v["yearPeriod"]
-                    dval["period"] = v["period"]  #trimestr 1,2,3,4
-                    dval["documentName"] = v["documentName"] 
-                    dval["documentOrder"] = v["documentOrder"] 
-                    dval["documentType"] = v["documentType"] 
-                    dval["path"] = v["path"] 
-                    dval["rpjCode"] = v["rpjCode"]
-                    dval["eeffType"] = v["eeffType"]   
-                    dval["caccount"] = i["caccount"]   
-                    dval["mainTitle"] = i["mainTitle"]   
-                    dval["numberColumns"] = i["numberColumns"]   
-                    dval["title"] = i["title"]   
-                    dval["value1"] = i["value1"]   
-                    lst_val.append(dval)
-                    str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["yearPeriod"], v["period"], v["documentName"], v["documentOrder"], v["documentType"], v["path"], v["rpjCode"], v["eeffType"] , i["caccount"], i["mainTitle"] , i["numberColumns"], i["title"] , i["value1"])
+    if "content" in lista_values:
+        for v in lista_values["content"]:
+            if "document" in v:
+                print(v["document"])
+                for i in v["document"]:
+                    valor = int("{}{}".format(v["yearPeriod"],v["period"]))
+                    if valor >doc_year:
+                        dval ={}
+                        dval["yearPeriod"] = v["yearPeriod"]
+                        dval["period"] = v["period"]  #trimestr 1,2,3,4
+                        dval["documentName"] = v["documentName"] 
+                        dval["documentOrder"] = v["documentOrder"] 
+                        dval["documentType"] = v["documentType"] 
+                        dval["path"] = v["path"] 
+                        dval["rpjCode"] = v["rpjCode"]
+                        dval["eeffType"] = v["eeffType"]   
+                        dval["caccount"] = i["caccount"]   
+                        dval["mainTitle"] = i["mainTitle"]   
+                        dval["numberColumns"] = i["numberColumns"]   
+                        dval["title"] = i["title"]   
+                        dval["value1"] = i["value1"]   
+                        lst_val.append(dval)
+                        str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["yearPeriod"], v["period"], v["documentName"], v["documentOrder"], v["documentType"], v["path"], v["rpjCode"], v["eeffType"] , i["caccount"], i["mainTitle"] , i["numberColumns"], i["title"] , i["value1"])
 
     if len(str_row) > 0:
         insert_row_doc_financieros(str_row[:-1])
