@@ -410,7 +410,7 @@ def insert_row_ratios_financieros(lst_row):
 def insertar_declaracion_financiera_x_compania(codigo):
     setting = get_config()
     r = requests.get(setting["url_bvl"]["url_declaracion_financiera_x_compania"].format(codigo)) 
-    data = json.loads(r.text)        
+    data = json.loads(r.text)   
     l = select_ratios_financieros(codigo)
     if len(l)>0:
         ratio_year = int(l[0])

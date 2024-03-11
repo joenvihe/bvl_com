@@ -93,7 +93,7 @@ def lista_year_quarter(year_quarter):
     for year in range(year_quarter,anho_actual+1):
         for quarter in range(1,5):
             valor = "{}{}".format(year,quarter)
-            lista_anho_quarter.add(int(valor))
+            lista_anho_quarter.append(int(valor))
     return lista_anho_quarter
 
 def insertar_resultado_x_quarter_x_compania_masivamente():
@@ -139,10 +139,10 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
 
-    try:
-        insertar_declaracion_financiera_x_compania_masivamente()
-    except Exception as e:
-        print(e)
+    #try:
+    #    insertar_declaracion_financiera_x_compania_masivamente()
+    #except Exception as e:
+    #    print(e)
     
 
     try:
