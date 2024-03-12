@@ -655,7 +655,13 @@ def insertar_hechos_de_importancia(codigo):
         for v in lista_values["content"]: 
             for d in v["documents"]:
                 if v["sessionDate"] > sessionDate:
-                    str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["columnNumber"],v["registerDate"],v["businessName"],v["observation"],v["sessionDate"],v["session"],v["rpjCode"],v["registerDateD"],v["codes"][0]["sequence"],v["codes"][0]["codeHHII"],v["codes"][0]["descCodeHHII"],d["sequence"],d["path"])
+                    v_sequence = ""
+                    v_path = ""
+                    if "sequence" in d:
+                        v_sequence = d["sequence"]
+                    if "path" in d:
+                        v_path = d["path"]        
+                    str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["columnNumber"],v["registerDate"],v["businessName"],v["observation"],v["sessionDate"],v["session"],v["rpjCode"],v["registerDateD"],v["codes"][0]["sequence"],v["codes"][0]["codeHHII"],v["codes"][0]["descCodeHHII"],v_sequence,v_path)
 
     if len(str_row) > 0:
         insert_hechos_de_importancia(str_row[:-1])
