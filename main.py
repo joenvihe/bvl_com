@@ -87,6 +87,11 @@ def insertar_declaracion_financiera_x_compania_masivamente():
     for codigo in lst_code:
         u.insertar_declaracion_financiera_x_compania(codigo)
 
+def insertar_hechos_de_importancia_x_compania_masivamente():
+    lst_code = u.select_companyStock_with_code()
+    for codigo in lst_code:
+        u.insertar_hechos_de_importancia(codigo)
+
 def lista_year_quarter(year_quarter):
     now = datetime.now()
     anho_actual = now.year
@@ -157,12 +162,22 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
     
+    print("insertar datos de hechos de importancia")
+    try:
+        insertar_hechos_de_importancia_x_compania_masivamente()
+    except Exception as e:
+        print("17")
+        print(e)
+
+
     #print("insertar datos de resultados por cuarto")
     #try:
     #    insertar_resultado_x_quarter_x_compania_masivamente()
     #except Exception as e:
     #    print("13")
     #    print(e)
+
+
 
 
 

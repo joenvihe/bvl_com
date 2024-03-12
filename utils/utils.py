@@ -4,6 +4,7 @@ import psycopg2
 from dotenv import load_dotenv
 import os 
 from datetime import datetime
+from datetime import date, timedelta
 import yaml
 
 def get_config():
@@ -470,10 +471,60 @@ def select_doc_financieros(codigo = ""):
     
     return list_stockCode
 
+
+def select_hechos_de_importancia(codigo = ""):
+    query = """
+    SELECT sessionDate
+	FROM public.hechos_de_importancia
+    WHERE rpjcode = '{}'
+    ORDER BY sessionDate DESC
+    LIMIT 1
+    """.format(codigo)
+
+    conn = connect_postgres()
+    cur = conn.cursor()
+    cur.execute(query) 
+    print(query)
+    list_hechos_importancia = []
+    try:
+        row = cur.fetchone()
+        while row is not None:
+            #print(row)
+            list_hechos_importancia.append("{}".format(row[0]))
+            row = cur.fetchone()
+    except Exception as e:
+        print("16")
+        print(e)
+
+    cur.close()
+    conn.close()
+    
+    return list_hechos_importancia
+
+
 def insert_row_doc_financieros(lst_row):
     try:
         
         query = """INSERT INTO public.doc_financieros(yearPeriod,period,documentName,documentOrder,documentType,path,rpjCode,eeffType,caccount,mainTitle,numberColumns,title,value1)
+	               VALUES {} """.format(lst_row)
+        # connect to the PostgreSQL server
+        conn = connect_postgres()
+        cur = conn.cursor()
+        cur.execute(query)
+        conn.commit()
+        
+        count = cur.rowcount
+        #print(count, "Record inserted")
+        
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print("8")
+        print(e)   
+
+def insert_hechos_de_importancia(lst_row):
+    try:
+        query = """INSERT INTO public.hechos_de_importancia(columnNumber,registerDate,businessName,observation,sessionDate,session,rpjCode,registerDateD,codes_sequence,codes_codeHHII,codes_descCodeHHII,doc_sequence,doc_path)
 	               VALUES {} """.format(lst_row)
         # connect to the PostgreSQL server
         conn = connect_postgres()
@@ -550,3 +601,63 @@ def insertar_resultado_x_quarter_x_compania(codigo,anho,quarter):
 
     if len(str_row) > 0:
         insert_row_doc_financieros(str_row[:-1])
+
+
+
+
+def insertar_hechos_de_importancia(codigo):
+    # variables detalle
+    date_inicio = date.today() - timedelta(days=8600)
+    date_fin = date.today() + timedelta(days=10)
+    headers = {
+    "authority": "dataondemand.bvl.com.pe",
+    "method": "POST",
+    "path":"/v1/corporate-actions",
+    "scheme": "https",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Accept-Language": "es-ES,es;q=0.9",
+    "Content-Length": "900",
+    "Content-Type": "application/json",
+    "Origin": "https://www.bvl.com.pe",
+    "Referer": "https://www.bvl.com.pe/emisores/detalle?companyCode=73600",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"  
+    }
+
+    payload = {
+        "rpjCode": codigo, #"B60001",
+        "page":1,
+        "size":30000,
+        "search":"",
+        "startDate":str(date_inicio),
+        "endDate":str(date_fin)}
+
+    try:
+        setting = get_config()
+        print("antes") 
+        r = requests.post(setting["url_bvl"]["url_hechos_de_importancia"], json=payload, headers=headers)
+        print("despues")
+        lista_values = json.loads(r.text)
+        #l = select_doc_financieros(codigo)
+        l = select_hechos_de_importancia(codigo)
+        print(l)
+        if len(l)>0:
+            sessionDate = int(l[0])
+        else:
+            sessionDate = "01/01/2003"
+    except Exception as e:
+        lista_values = []
+        print("15")
+        print(e)
+
+    lst_val = []
+    if "content" in lista_values:
+        for v in lista_values["content"]: 
+            for d in v["documents"]:
+                if v["sessionDate"] > sessionDate:
+                    str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["columnNumber"],v["registerDate"],v["businessName"],v["observation"],v["sessionDate"],v["session"],v["rpjCode"],v["registerDateD"],v["codes"][0]["sequence"],v["codes"][0]["codeHHII"],v["codes"][0]["descCodeHHII"],d["sequence"],d["path"])
+
+    if len(str_row) > 0:
+        insert_hechos_de_importancia(str_row[:-1])
+
+

@@ -5,3 +5,4 @@ url_bvl:
   url_bvl_info_compania : "https://dataondemand.bvl.com.pe/v1/issuers/{}/info"
   url_dividendos_x_compania : "https://dataondemand.bvl.com.pe/v1/issuers/{}/value"
   url_declaracion_financiera_x_compania : "https://dataondemand.bvl.com.pe/v1/financial-statements/{}"
+  url_hechos_de_importancia : "https://dataondemand.bvl.com.pe/v1/corporate-actions"
