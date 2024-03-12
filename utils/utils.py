@@ -662,9 +662,19 @@ def insertar_hechos_de_importancia(codigo):
                     if "sequence" in d:
                         v_sequence = d["sequence"]
                     if "path" in d:
-                        v_path = d["path"]        
-                    str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["columnNumber"],v["registerDate"],v["businessName"],v["observation"],v["sessionDate"],v["session"],v["rpjCode"],v["registerDateD"],v["codes"][0]["sequence"],v["codes"][0]["codeHHII"],v["codes"][0]["descCodeHHII"],v_sequence,v_path)
+                        v_path = d["path"] 
 
+                    v_codes_sequence = ""
+                    v_codes_codeHHII = ""
+                    v_codes_descCodeHHII = ""
+                    if "codes" in v and len(v["codes"])>0:
+                        v_codes_sequence = v["codes"][0]["sequence"]
+                        v_codes_codeHHII = v["codes"][0]["codeHHII"]
+                        v_codes_descCodeHHII = v["codes"][0]["descCodeHHII"]
+
+                    str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["columnNumber"],v["registerDate"],v["businessName"],v["observation"],v["sessionDate"],v["session"],v["rpjCode"],v["registerDateD"],v_codes_sequence,v_codes_codeHHII,v_codes_descCodeHHII,v_sequence,v_path)
+
+    print("antes de insertar")
     if len(str_row) > 0:
         insert_hechos_de_importancia(str_row[:-1])
 
