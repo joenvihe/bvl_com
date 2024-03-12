@@ -642,7 +642,7 @@ def insertar_hechos_de_importancia(codigo):
         l = select_hechos_de_importancia(codigo)
         print(l)
         if len(l)>0:
-            sessionDate = int(l[0])
+            sessionDate = l[0]
         else:
             sessionDate = "01/01/2003"
     except Exception as e:
@@ -655,6 +655,8 @@ def insertar_hechos_de_importancia(codigo):
         for v in lista_values["content"]: 
             for d in v["documents"]:
                 if v["sessionDate"] > sessionDate:
+                    print(d)
+                    print("xx")
                     v_sequence = ""
                     v_path = ""
                     if "sequence" in d:
