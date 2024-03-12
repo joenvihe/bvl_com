@@ -669,9 +669,12 @@ def insertar_hechos_de_importancia(codigo):
                     v_codes_descCodeHHII = ""
                     if "codes" in v and len(v["codes"])>0:
                         print(v["codes"])
-                        v_codes_sequence = v["codes"][0]["sequence"]
-                        v_codes_codeHHII = v["codes"][0]["codeHHII"]
-                        v_codes_descCodeHHII = v["codes"][0]["descCodeHHII"]
+                        if "sequence" in v["codes"][0]:
+                            v_codes_sequence = v["codes"][0]["sequence"]
+                        if "codeHHII" in v["codes"][0]:
+                            v_codes_codeHHII = v["codes"][0]["codeHHII"]
+                        if "descCodeHHII" in v["codes"][0]:
+                            v_codes_descCodeHHII = v["codes"][0]["descCodeHHII"]
                     print("zzz")
                     str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["columnNumber"],v["registerDate"],v["businessName"],v["observation"],v["sessionDate"],v["session"],v["rpjCode"],v["registerDateD"],v_codes_sequence,v_codes_codeHHII,v_codes_descCodeHHII,v_sequence,v_path)
 
