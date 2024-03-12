@@ -650,7 +650,7 @@ def insertar_hechos_de_importancia(codigo):
         print("15")
         print(e)
 
-    lst_val = []
+    str_row = ""
     if "content" in lista_values:
         for v in lista_values["content"]: 
             for d in v["documents"]:
