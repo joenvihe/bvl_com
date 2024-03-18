@@ -674,7 +674,7 @@ def insertar_hechos_de_importancia(codigo):
                         if "codeHHII" in v["codes"][0]:
                             v_codes_codeHHII = v["codes"][0]["codeHHII"]
                         if "descCodeHHII" in v["codes"][0]:
-                            v_codes_descCodeHHII = v["codes"][0]["descCodeHHII"]
+                            v_codes_descCodeHHII = v["codes"][0]["descCodeHHII"].replace("'", "")
                     print("zzz")
                     str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["columnNumber"],v["registerDate"],v["businessName"],v["observation"],v["sessionDate"],v["session"],v["rpjCode"],v["registerDateD"],v_codes_sequence,v_codes_codeHHII,v_codes_descCodeHHII,v_sequence,v_path)
 
