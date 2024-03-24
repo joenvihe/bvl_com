@@ -654,7 +654,7 @@ def insertar_hechos_de_importancia(codigo):
     if "content" in lista_values:
         for v in lista_values["content"]: 
             for d in v["documents"]:
-                if v["sessionDate"] > sessionDate:
+                if str(v["sessionDate"]) > str(sessionDate):
                     print(d)
                     print("xx")
                     v_sequence = ""
