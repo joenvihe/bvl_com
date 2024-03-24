@@ -531,9 +531,9 @@ def insert_hechos_de_importancia(lst_row):
         cur = conn.cursor()
         cur.execute(query)
         conn.commit()
-        
+        print(query)
         count = cur.rowcount
-        #print(count, "Record inserted")
+        print(count, "Record insert_hechos_de_importancia")
         
         cur.close()
         conn.close()

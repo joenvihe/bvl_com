@@ -169,6 +169,8 @@ if __name__ == "__main__":
         print("17")
         print(e)
 
+    print("proceso finalizado")
+    
 
     #print("insertar datos de resultados por cuarto")
     #try:
