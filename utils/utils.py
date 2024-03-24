@@ -474,10 +474,10 @@ def select_doc_financieros(codigo = ""):
 
 def select_hechos_de_importancia(codigo = ""):
     query = """
-    SELECT sessionDate
+    SELECT sessionDate 
 	FROM public.hechos_de_importancia
     WHERE rpjcode = '{}'
-    ORDER BY sessionDate DESC
+    ORDER BY Registerdate DESC
     LIMIT 1
     """.format(codigo)
 
