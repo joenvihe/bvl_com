@@ -656,7 +656,7 @@ def insertar_hechos_de_importancia(codigo):
                 #26/08/2021
                 if str(v["sessionDate"]).strip() == "" or  str(sessionDate).strip() == "":
                     continue
-                print("formato fecha 1 {} - fecha2 {}".format(str(v["sessionDate"])),str(sessionDate))
+                print("formato fecha 1 {} - fecha2 {}".format(str(v["sessionDate"]),str(sessionDate)))
                 
                 fecha_url =  datetime.strptime(v["sessionDate"], '%d/%m/%Y')
                 fecha_bd =  datetime.strptime(sessionDate, '%d/%m/%Y')
