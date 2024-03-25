@@ -640,7 +640,6 @@ def insertar_hechos_de_importancia(codigo):
         lista_values = json.loads(r.text)
         #l = select_doc_financieros(codigo)
         l = select_hechos_de_importancia(codigo)
-        print(l)
         if len(l)>0:
             sessionDate = l[0]
         else:
@@ -654,28 +653,27 @@ def insertar_hechos_de_importancia(codigo):
     if "content" in lista_values:
         for v in lista_values["content"]: 
             for d in v["documents"]:
-                if str(v["sessionDate"]) > str(sessionDate):
-                    print(d)
-                    print("xx")
+                #26/08/2021
+                fecha_url =  datetime.strptime(v["sessionDate"], '%d/%m/%y')
+                fecha_bd =  datetime.strptime(sessionDate, '%d/%m/%y')
+                if fecha_url > fecha_bd:
+                    print("fecha_bd = {} - fecha_url = {}".format(fecha_bd,fecha_url)) 
                     v_sequence = ""
                     v_path = ""
                     if "sequence" in d:
                         v_sequence = d["sequence"]
                     if "path" in d:
                         v_path = d["path"] 
-                    print("yyy")
                     v_codes_sequence = ""
                     v_codes_codeHHII = ""
                     v_codes_descCodeHHII = ""
                     if "codes" in v and len(v["codes"])>0:
-                        print(v["codes"])
                         if "sequence" in v["codes"][0]:
                             v_codes_sequence = v["codes"][0]["sequence"]
                         if "codeHHII" in v["codes"][0]:
                             v_codes_codeHHII = v["codes"][0]["codeHHII"]
                         if "descCodeHHII" in v["codes"][0]:
                             v_codes_descCodeHHII = v["codes"][0]["descCodeHHII"].replace("'", "")
-                    print("zzz")
                     str_row += "('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}'),".format(v["columnNumber"],v["registerDate"],v["businessName"],v["observation"].replace("'", ""),v["sessionDate"],v["session"],v["rpjCode"],v["registerDateD"],v_codes_sequence,v_codes_codeHHII,v_codes_descCodeHHII,v_sequence,v_path)
 
     print("antes de insertar")
