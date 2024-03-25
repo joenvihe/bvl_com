@@ -654,8 +654,8 @@ def insertar_hechos_de_importancia(codigo):
         for v in lista_values["content"]: 
             for d in v["documents"]:
                 #26/08/2021
-                fecha_url =  datetime.strptime(v["sessionDate"], '%d/%m/%y')
-                fecha_bd =  datetime.strptime(sessionDate, '%d/%m/%y')
+                fecha_url =  datetime.strptime(v["sessionDate"], '%d/%m/%Y')
+                fecha_bd =  datetime.strptime(sessionDate, '%d/%m/%Y')
                 if fecha_url > fecha_bd:
                     print("fecha_bd = {} - fecha_url = {}".format(fecha_bd,fecha_url)) 
                     v_sequence = ""
